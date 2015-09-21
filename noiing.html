@@ -1,8 +1,48 @@
 <head>
   <title>Noiing</title>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+     <script src="https://jumpch.at/sdk/0.1/jcclient.js"></script>
+     <script>
+		function makeid()
+		{
+		    var text = "";
+		    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		    for( var i=0; i < 5; i++ )
+		        text += possible.charAt(Math.floor(Math.random() * possible.length));
+		    return text;
+		}
+		var userid = makeid();
+		var jc = new JCClient({'userid': userid, 'apiKey': '2c6cc085-d892-4783-b385-f80f44812cef'});
+		jc.localVideo(function(video) {
+			video.id = 'me';
+			$('#video').append(video);
+		});
+		jc.on('joined', function(e, userid) {
+			console.log('user ' + userid + ' joined');
+		});
+		jc.on('remoteVideoAdded', function(e, userid, videoid, video) {
+			video.id = userid;
+			$('#video').append(video);
+		});
+		jc.on('remoteVideoRemoved', function(e, userid, videoid) {
+			$('#' + userid).remove();
+		});
+		var room = "noiing01";
+		var type = "custom";
+		var password = "";
+		jc.join(room, type, password, function() {
+			console.log('joined');
+		});
+    </script>
 </head>
- 
-<body ng-app="noiing"
+<body>
+<div id="chat-area" 
+	  ng-app="noiing"
       ng-include="'chat-list.ng.html'"
       ng-controller="ChatsListCtrl">
+</div>
+ <div id="video">
+
+ </div>
 </body>

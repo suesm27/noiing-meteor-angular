@@ -1,8 +1,5 @@
 <div class="container">
   <header>
-    <meteor-include src="loginButtons"></meteor-include>
-
-
     <h1>Chatroom List</h1>
     <ul ng-repeat="chatroom in chatrooms">
       <li>
@@ -18,6 +15,7 @@
 
   </header>
 
+  <div>
   <ul ng-repeat="chat in chats">
       <li>
       <button class="delete" ng-click="chats.remove(chat)">&times;</button>
@@ -26,7 +24,10 @@
       <span>{{chat.createdAt}}</span>
     </li>
   </ul>
-
+    <p ng-show="!$root.currentUser">
+      Please log in to start chatting:
+      <meteor-include src="loginButtons" class="btn"></meteor-include>
+    </p>
       <!-- add a form below the chats -->
     <form class="new-chat" ng-submit="addChat(newChat); newChat='';" ng-show="$root.currentUser">
       <input ng-model="newChat" type="text"
@@ -40,4 +41,7 @@
         </li>
       </ul>
     </div>
+  </div>
+
+
 </div>
