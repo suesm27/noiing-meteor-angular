@@ -1,0 +1,43 @@
+<div class="container">
+  <header>
+    <meteor-include src="loginButtons"></meteor-include>
+
+
+    <h1>Chatroom List</h1>
+    <ul ng-repeat="chatroom in chatrooms">
+      <li>
+        <button class="delete" ng-click="chatrooms.remove(chatroom)">&times;</button>
+        <span class="text">{{chatroom.name}}</span>
+      </li>
+    </ul>
+      <!-- add a form below the h1 -->
+    <form class="new-chatroom" ng-submit="addChatroom(newChatroom); newChatroom='';">
+      <input ng-model="newChatroom" type="text"
+             name="name" placeholder="Type to add new chatroom" />
+    </form>
+
+  </header>
+
+  <ul ng-repeat="chat in chats">
+      <li>
+      <button class="delete" ng-click="chats.remove(chat)">&times;</button>
+      <strong>{{chat.username}}</strong> says: "
+      <span>{{chat.text}}</span>" at: 
+      <span>{{chat.createdAt}}</span>
+    </li>
+  </ul>
+
+      <!-- add a form below the chats -->
+    <form class="new-chat" ng-submit="addChat(newChat); newChat='';" ng-show="$root.currentUser">
+      <input ng-model="newChat" type="text"
+             name="text" placeholder="Say something..." />
+    </form>
+    <div>
+      <p ng-show="errorFlag">Errors:</p>
+      <ul ng-repeat="error in errors">
+        <li>
+          <span>{{error.msg}}</span>
+        </li>
+      </ul>
+    </div>
+</div>
